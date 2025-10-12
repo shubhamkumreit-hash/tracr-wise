@@ -10,17 +10,28 @@ interface ExpenseListProps {
 
 export const ExpenseList = ({ expenses, onDeleteExpense }: ExpenseListProps) => {
   return (
-    <Card className="p-6 bg-gradient-card shadow-md">
-      <h2 className="text-xl font-semibold mb-4 text-foreground">Recent Expenses</h2>
+    <Card className="p-6 bg-gradient-card shadow-lg hover:shadow-xl transition-shadow border-none">
+      <div className="flex items-center gap-3 mb-6">
+        <div className="p-2 bg-gradient-secondary rounded-lg">
+          <Trash2 className="h-5 w-5 text-white" />
+        </div>
+        <h2 className="text-xl font-bold text-foreground">Recent Expenses</h2>
+      </div>
       
       {expenses.length === 0 ? (
-        <p className="text-center text-muted-foreground py-8">No expenses yet. Add your first expense!</p>
+        <div className="text-center py-12">
+          <div className="mb-4 opacity-50">
+            <Trash2 className="h-16 w-16 mx-auto text-muted-foreground" />
+          </div>
+          <p className="text-muted-foreground text-lg">No expenses yet</p>
+          <p className="text-sm text-muted-foreground mt-2">Add your first expense to get started!</p>
+        </div>
       ) : (
-        <div className="space-y-3 max-h-96 overflow-y-auto">
+        <div className="space-y-3 max-h-96 overflow-y-auto pr-2">
           {expenses.map((expense) => (
             <div
               key={expense.id}
-              className="flex items-center justify-between p-4 bg-background rounded-lg border border-border hover:shadow-md transition-shadow"
+              className="flex items-center justify-between p-4 bg-background rounded-xl border border-border hover:shadow-lg hover:border-primary/50 transition-all hover:-translate-y-1"
             >
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-1">

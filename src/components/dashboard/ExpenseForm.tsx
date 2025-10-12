@@ -44,8 +44,13 @@ export const ExpenseForm = ({ onAddExpense }: ExpenseFormProps) => {
   };
 
   return (
-    <Card className="p-6 bg-gradient-card shadow-md">
-      <h2 className="text-xl font-semibold mb-4 text-foreground">Add Expense</h2>
+    <Card className="p-6 bg-gradient-card shadow-lg hover:shadow-xl transition-shadow border-none">
+      <div className="flex items-center gap-3 mb-6">
+        <div className="p-2 bg-gradient-primary rounded-lg">
+          <Plus className="h-5 w-5 text-white" />
+        </div>
+        <h2 className="text-xl font-bold text-foreground">Add New Expense</h2>
+      </div>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="category">Category</Label>
@@ -98,7 +103,11 @@ export const ExpenseForm = ({ onAddExpense }: ExpenseFormProps) => {
           />
         </div>
 
-        <Button type="submit" className="w-full" disabled={isSubmitting}>
+        <Button 
+          type="submit" 
+          className="w-full bg-gradient-primary hover:opacity-90 shadow-glow text-white font-semibold" 
+          disabled={isSubmitting}
+        >
           <Plus className="mr-2 h-4 w-4" />
           {isSubmitting ? 'Adding...' : 'Add Expense'}
         </Button>

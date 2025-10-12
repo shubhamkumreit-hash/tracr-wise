@@ -1,5 +1,5 @@
 import { Card } from '@/components/ui/card';
-import { BarChart, Bar, PieChart, Pie, Cell, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend } from 'recharts';
+import { BarChart, Bar, PieChart, Pie, Cell, ResponsiveContainer, XAxis, YAxis, Tooltip } from 'recharts';
 import { Expense, ExpenseStats } from '@/services/apiService';
 
 interface ExpenseChartsProps {
@@ -7,7 +7,7 @@ interface ExpenseChartsProps {
   stats: ExpenseStats;
 }
 
-const COLORS = ['#6366f1', '#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899'];
+const COLORS = ['#8b5cf6', '#6366f1', '#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#ec4899'];
 
 export const ExpenseCharts = ({ expenses, stats }: ExpenseChartsProps) => {
   const categoryData = Object.entries(stats.categoryBreakdown).map(([name, value]) => ({
@@ -25,8 +25,8 @@ export const ExpenseCharts = ({ expenses, stats }: ExpenseChartsProps) => {
 
   return (
     <div className="grid md:grid-cols-2 gap-6">
-      <Card className="p-6 bg-gradient-card shadow-md">
-        <h3 className="text-lg font-semibold mb-4 text-foreground">Spending by Category</h3>
+      <Card className="p-6 bg-gradient-card shadow-lg hover:shadow-xl transition-shadow border-none">
+        <h3 className="text-xl font-bold mb-6 text-foreground">Spending by Category</h3>
         <ResponsiveContainer width="100%" height={250}>
           <PieChart>
             <Pie
@@ -48,8 +48,8 @@ export const ExpenseCharts = ({ expenses, stats }: ExpenseChartsProps) => {
         </ResponsiveContainer>
       </Card>
 
-      <Card className="p-6 bg-gradient-card shadow-md">
-        <h3 className="text-lg font-semibold mb-4 text-foreground">Recent Daily Spending</h3>
+      <Card className="p-6 bg-gradient-card shadow-lg hover:shadow-xl transition-shadow border-none">
+        <h3 className="text-xl font-bold mb-6 text-foreground">Recent Activity</h3>
         <ResponsiveContainer width="100%" height={250}>
           <BarChart data={dailyData}>
             <XAxis dataKey="date" stroke="hsl(var(--muted-foreground))" />

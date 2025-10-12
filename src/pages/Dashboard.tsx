@@ -7,6 +7,8 @@ import { ExpenseList } from '@/components/dashboard/ExpenseList';
 import { BudgetCard } from '@/components/dashboard/BudgetCard';
 import { ExpenseCharts } from '@/components/dashboard/ExpenseCharts';
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
+import { DashboardHero } from '@/components/dashboard/DashboardHero';
+import { StatsCards } from '@/components/dashboard/StatsCards';
 import { toast } from 'sonner';
 
 const Dashboard = () => {
@@ -72,8 +74,11 @@ const Dashboard = () => {
 
   if (isLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-background">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-primary/20 via-background to-secondary/20">
+        <div className="flex flex-col items-center gap-4">
+          <div className="animate-spin rounded-full h-16 w-16 border-4 border-primary border-t-transparent shadow-glow"></div>
+          <p className="text-sm text-muted-foreground animate-pulse">Loading your dashboard...</p>
+        </div>
       </div>
     );
   }
@@ -86,30 +91,39 @@ const Dashboard = () => {
   const budgetAmount = budget?.amount || 5000;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-primary/10 via-background to-secondary/10">
       <DashboardHeader />
       
-      <main className="container mx-auto px-4 py-8">
+      <DashboardHero totalSpent={totalSpent} budget={budgetAmount} expenseCount={expenses.length} />
+      
+      <main className="container mx-auto px-4 py-8 space-y-8">
         {isLoadingData ? (
           <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+            <div className="flex flex-col items-center gap-3">
+              <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent"></div>
+              <p className="text-sm text-muted-foreground">Loading your data...</p>
+            </div>
           </div>
         ) : (
-          <div className="grid lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-1 space-y-6">
-              <ExpenseForm onAddExpense={handleAddExpense} />
-              <BudgetCard
-                budget={budgetAmount}
-                spent={totalSpent}
-                onUpdateBudget={handleUpdateBudget}
-              />
-            </div>
+          <>
+            <StatsCards stats={stats} totalSpent={totalSpent} budget={budgetAmount} />
             
-            <div className="lg:col-span-2 space-y-6">
-              <ExpenseList expenses={expenses} onDeleteExpense={handleDeleteExpense} />
-              {stats && <ExpenseCharts expenses={expenses} stats={stats} />}
+            <div className="grid lg:grid-cols-3 gap-8">
+              <div className="lg:col-span-1 space-y-6">
+                <ExpenseForm onAddExpense={handleAddExpense} />
+                <BudgetCard
+                  budget={budgetAmount}
+                  spent={totalSpent}
+                  onUpdateBudget={handleUpdateBudget}
+                />
+              </div>
+              
+              <div className="lg:col-span-2 space-y-6">
+                <ExpenseList expenses={expenses} onDeleteExpense={handleDeleteExpense} />
+                {stats && <ExpenseCharts expenses={expenses} stats={stats} />}
+              </div>
             </div>
-          </div>
+          </>
         )}
       </main>
     </div>
