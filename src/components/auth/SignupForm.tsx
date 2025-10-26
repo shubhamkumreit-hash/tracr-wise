@@ -4,16 +4,19 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
-import { Loader2, Mail } from 'lucide-react';
+import { Loader2, Mail, CheckCircle } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import * as authService from '@/services/authService';
 
 export const SignupForm = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [verificationCode, setVerificationCode] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showVerification, setShowVerification] = useState(false);
+  const [isVerified, setIsVerified] = useState(false);
   const { signUp } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -42,6 +45,57 @@ export const SignupForm = () => {
     }
   };
 
+  const handleVerification = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      await authService.confirmSignUp(email, verificationCode);
+      setIsVerified(true);
+      toast.success('Account verified! You can now sign in.');
+    } catch (error: any) {
+      toast.error(error.message || 'Invalid verification code');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleResendCode = async () => {
+    setIsLoading(true);
+    try {
+      await authService.resendConfirmationCode(email);
+      toast.success('Verification code resent! Check your email.');
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to resend code');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (isVerified) {
+    return (
+      <div className="space-y-4">
+        <Alert className="border-green-500 bg-green-50">
+          <CheckCircle className="h-4 w-4 text-green-600" />
+          <AlertTitle className="text-green-800">Account Verified!</AlertTitle>
+          <AlertDescription className="text-green-700">
+            Your account has been successfully verified. You can now sign in with your credentials.
+          </AlertDescription>
+        </Alert>
+        <Button 
+          variant="default" 
+          className="w-full" 
+          onClick={() => {
+            setIsVerified(false);
+            setShowVerification(false);
+          }}
+        >
+          Go to Sign In
+        </Button>
+      </div>
+    );
+  }
+
   if (showVerification) {
     return (
       <div className="space-y-4">
@@ -49,17 +103,50 @@ export const SignupForm = () => {
           <Mail className="h-4 w-4" />
           <AlertTitle>Verify Your Email</AlertTitle>
           <AlertDescription>
-            We've sent a verification email to <strong>{email}</strong>.
-            Please check your inbox and click the verification link to activate your account.
+            We've sent a 6-digit verification code to <strong>{email}</strong>.
+            Please enter the code below to activate your account.
           </AlertDescription>
         </Alert>
-        <Button 
-          variant="outline" 
-          className="w-full" 
-          onClick={() => setShowVerification(false)}
-        >
-          Back to Sign Up
-        </Button>
+        
+        <form onSubmit={handleVerification} className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="verificationCode">Verification Code</Label>
+            <Input
+              id="verificationCode"
+              type="text"
+              placeholder="Enter 6-digit code"
+              value={verificationCode}
+              onChange={(e) => setVerificationCode(e.target.value)}
+              required
+              maxLength={6}
+              className="text-center text-lg tracking-widest"
+            />
+          </div>
+          
+          <Button type="submit" className="w-full" disabled={isLoading}>
+            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            Verify Account
+          </Button>
+        </form>
+
+        <div className="flex gap-2">
+          <Button 
+            variant="outline" 
+            className="flex-1" 
+            onClick={() => setShowVerification(false)}
+            disabled={isLoading}
+          >
+            Back to Sign Up
+          </Button>
+          <Button 
+            variant="ghost" 
+            className="flex-1" 
+            onClick={handleResendCode}
+            disabled={isLoading}
+          >
+            Resend Code
+          </Button>
+        </div>
       </div>
     );
   }
