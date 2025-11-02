@@ -44,9 +44,9 @@ export const ExpenseForm = ({ onAddExpense }: ExpenseFormProps) => {
   };
 
   return (
-    <Card className="p-6 bg-gradient-card shadow-lg hover:shadow-xl transition-shadow border-none">
+    <Card className="p-6 bg-gradient-card shadow-lg hover:shadow-xl transition-shadow border-none animate-fade-in">
       <div className="flex items-center gap-3 mb-6">
-        <div className="p-2 bg-gradient-primary rounded-lg">
+        <div className="p-2 bg-gradient-primary rounded-lg animate-pulse-glow">
           <Plus className="h-5 w-5 text-white" />
         </div>
         <h2 className="text-xl font-bold text-foreground">Add New Expense</h2>
@@ -105,7 +105,7 @@ export const ExpenseForm = ({ onAddExpense }: ExpenseFormProps) => {
 
         <Button 
           type="submit" 
-          className="w-full bg-gradient-primary hover:opacity-90 shadow-glow text-white font-semibold" 
+          className="w-full bg-gradient-primary hover:opacity-90 shadow-glow text-white font-semibold hover-lift" 
           disabled={isSubmitting}
         >
           <Plus className="mr-2 h-4 w-4" />

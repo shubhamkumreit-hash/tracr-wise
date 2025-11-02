@@ -1,4 +1,4 @@
-import { TrendingUp, TrendingDown, DollarSign, Calendar } from 'lucide-react';
+import { TrendingUp, TrendingDown, DollarSign, Calendar, Receipt } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { ExpenseStats } from '@/services/apiService';
 
@@ -18,7 +18,7 @@ export const StatsCards = ({ stats, totalSpent, budget }: StatsCardsProps) => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <Card className="p-6 bg-gradient-card border-none shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
+      <Card className="p-6 bg-gradient-card border-none shadow-lg hover-lift animate-scale-in" style={{ animationDelay: '0.1s', animationFillMode: 'backwards' }}>
         <div className="flex items-center justify-between mb-4">
           <div className="p-3 bg-gradient-primary rounded-xl shadow-glow">
             <DollarSign className="h-6 w-6 text-white" />
@@ -40,7 +40,7 @@ export const StatsCards = ({ stats, totalSpent, budget }: StatsCardsProps) => {
         </div>
       </Card>
 
-      <Card className="p-6 bg-gradient-card border-none shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
+      <Card className="p-6 bg-gradient-card border-none shadow-lg hover-lift animate-scale-in" style={{ animationDelay: '0.2s', animationFillMode: 'backwards' }}>
         <div className="flex items-center justify-between mb-4">
           <div className="p-3 bg-gradient-secondary rounded-xl">
             <Calendar className="h-6 w-6 text-white" />
@@ -57,7 +57,7 @@ export const StatsCards = ({ stats, totalSpent, budget }: StatsCardsProps) => {
         </div>
       </Card>
 
-      <Card className="p-6 bg-gradient-card border-none shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
+      <Card className="p-6 bg-gradient-card border-none shadow-lg hover-lift animate-scale-in" style={{ animationDelay: '0.3s', animationFillMode: 'backwards' }}>
         <div className="flex items-center justify-between mb-4">
           <div className="p-3 bg-gradient-success rounded-xl">
             <TrendingUp className="h-6 w-6 text-white" />
@@ -74,7 +74,7 @@ export const StatsCards = ({ stats, totalSpent, budget }: StatsCardsProps) => {
         </div>
       </Card>
 
-      <Card className="p-6 bg-gradient-card border-none shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
+      <Card className="p-6 bg-gradient-card border-none shadow-lg hover-lift animate-scale-in" style={{ animationDelay: '0.4s', animationFillMode: 'backwards' }}>
         <div className="flex items-center justify-between mb-4">
           <div className="p-3 bg-accent rounded-xl">
             <Receipt className="h-6 w-6 text-white" />
@@ -94,4 +94,3 @@ export const StatsCards = ({ stats, totalSpent, budget }: StatsCardsProps) => {
   );
 };
 
-import { Receipt } from 'lucide-react';
